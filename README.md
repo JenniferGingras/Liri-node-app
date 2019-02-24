@@ -31,21 +31,48 @@ from **OMDB**
 * Plot
 * Actors
 
-## **So, are you ready to get started?**
-There is only one answer and that answer is yes. Now you can check out these useful instructions.  
-
 ### **Useful Instructions**
-LIRI runs on four commands which you will type into the terminal. The four search commands and their parameters are:
+LIRI runs on four commands which are type into the terminal. The four search commands and their parameters are:
 
 * `spotify-this-song` + song title
 * `movie-this` + movie title
 * `concert-this` + artist/band name
 * `do-what-it-says` (try it and find out what is says...)
 
-To run the commands type this into terminal: 
+The commands run like so: 
 > `node liri.js <command> <search parameter>`
 
-## **And GO!**
+## See it in Action!
+
+**Bands in Town**  
+Search for single or multi-word artists and band names.
+![Getting Started](screenshots/concert-example.png)
+
+**Spotify**  
+Search for a song title.
+![Getting Started](screenshots/spotify-example.png)
+
+**OMDB**  
+Search for a movie title.
+![Getting Started](screenshots/movie-example.png) 
+
+If no search term is given the return defaults to "Mr. Nobody".
+![Getting Started](screenshots/mr-nobody.png)
+
+### Catching Input Errors
+There are some error messages in place because user input isn't perfect.
+
+If the command is typed in wrong:
+![Getting Started](screenshots/command-error.png)
+
+If the title is mispelled:
+![Getting Started](screenshots/movie-error.png)
+
+
+
+
+
+
 
 
 
