@@ -4,7 +4,13 @@ var moment = require("moment");
 var Spotify = require('node-spotify-api');
 var axios = require("axios");
 var fs = require("fs");
+var chalk = require("chalk");
 
+// text colors
+var title = chalk.yellow;
+var errorMes = chalk.red;
+var listBold = chalk.magenta;
+var list = chalk.cyan;
 
 // BANDS IN TOWN SEARCH
 // ----------------------
@@ -16,17 +22,17 @@ var concert = function (query) {
   var URL = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp"
   // use axios.get with query variable
   if (!artist) {
-    console.log("\n-!! Try again, please. Remember to type in an artist or band. !!-\n")
+    console.log(errorMes("\n-!! Try again, please. Remember to type in an artist or band. !!-\n"));
   }
   axios.get(URL).then(function (response, ) {
     // console.log data (name of venue, venue location, date of event (use moment- blech! - to format as MM/DD/YYYY))
     // NB - put each piece of data on a separate line
     var data = response.data[0];
     var time = moment(data.datetime).format("MMMM Do YYYY, h:mm: a");
-    console.log("\n----Upcoming Concert Info----\n" +
-      "\nVenue: " + data.venue.name +
-      "\nLocation: " + data.venue.city + ", " + data.venue.country +
-      "\nTime: " + time +
+    console.log(title("\n----Upcoming Concert Info----\n") + listBold(
+        "\nVenue: ") + list(data.venue.name) + listBold(
+        "\nLocation: ") + list(data.venue.city + ", " + data.venue.country) +
+      listBold("\nTime: ") + list(time) +
       "\n\n");
   });
 
@@ -47,14 +53,14 @@ var spotifySong = function (query) {
         limit: 10,
       })
       .then(function (response) {
-        console.log("\n\n-!! You didn't pick a song, so you get this. !!-")
+        console.log(errorMes("\n\n-!! You didn't pick a song, so you get this. !!-"));
         var data = response.tracks.items[0];
-        console.log("\n----Song Info----\n" +
-          "\nSong: " + data.name +
-          "\nArtist: " + data.artists[0].name +
-          "\nAlbum: " + data.album.name +
-          "\nSpotify URL: " + data.external_urls.spotify +
-          "\n\n")
+        console.log(title("\n----Song Info----\n") + listBold(
+            "\nSong: ") + list(data.name) + listBold(
+            "\nArtist: ") + list(data.artists[0].name) + listBold(
+            "\nAlbum: ") + list(data.album.name) + listBold(
+            "\nSpotify URL: ") + list(data.external_urls.spotify) +
+          "\n\n");
       })
   } else {
     spotify.search({
@@ -65,12 +71,12 @@ var spotifySong = function (query) {
       .then(function (response) {
         // console.log data (artist, song's name, preview lin of song from Spotify, album name)
         var data = response.tracks.items[0];
-        console.log("\n----Song Info----\n" +
-          "\nSong: " + data.name +
-          "\nArtist: " + data.artists[0].name +
-          "\nAlbum: " + data.album.name +
-          "\nSpotify URL: " + data.external_urls.spotify +
-          "\n\n")
+        console.log(title("\n----Song Info----\n") + listBold(
+            "\nSong: ") + list(data.name) + listBold(
+            "\nArtist: ") + list(data.artists[0].name) + listBold(
+            "\nAlbum: ") + list(data.album.name) + listBold(
+            "\nSpotify URL: ") + list(data.external_urls.spotify) +
+          "\n\n");
       })
   }
 }
@@ -88,23 +94,23 @@ var movie = function (query) {
   // create default for no input
   if (!movieTitle) {
     URL = "http://www.omdbapi.com/?t=mr+nobody&apikey=trilogy&"
-    console.log("\n-!! You didn't pick a movie, so you get this. !!-")
+    console.log(errorMes("\n-!! You didn't pick a movie, so you get this. !!-"));
   }
   // use axios.get with query variable
   axios.get(URL).then(function (response) {
       var data = response.data;
       if (data.Title === undefined) {
-        console.log("\n\n--Could not find title. Check your spelling and try again.--\n\n")
+        console.log(errorMes("\n\n--Could not find title. Check your spelling and try again.--\n\n"));
       } else {
-        console.log("\n----Movie Info----\n" +
-          "\nTitle: " + data.Title +
-          "\nYear Released: " + data.Year +
-          "\nIMDB Rating: " + data.imdbRating +
-          // "\nRotten Tomatoes Rating: " + data.Ratings[1].Value +
-          "\nCountry: " + data.Country +
-          "\nLanguage: " + data.Language +
-          "\nSummary: " + data.Plot +
-          "\nCast: " + data.Actors +
+        console.log(title("\n----Movie Info----\n") + listBold(
+            "\nTitle: ") + list(data.Title) + listBold(
+            "\nYear Released: ") + list(data.Year) + listBold(
+            "\nIMDB Rating: ") + list(data.imdbRating) +
+          // "\nRotten Tomatoes Rating: " + data.Ratings[1].Value + 
+          listBold("\nCountry: ") + list(data.Country) +
+          listBold("\nLanguage: ") + list(data.Language) +
+          listBold("\nSummary: ") + list(data.Plot) +
+          listBold("\nCast: ") + list(data.Actors) +
           "\n\n");
         // console.log data (title, year, IMDB rating, Rotten Tomatoes rating, country, language, plot, actors)
       }
@@ -151,5 +157,5 @@ switch (command) {
     doWhat();
     break;
   default:
-    console.log("\n\n-!! Something went wrong. Make sure you typed your command correctly. !!-\n\n");
+    console.log(errorMes("\n\n-!! Something went wrong. Make sure you typed your command correctly. !!-\n\n"));
 }

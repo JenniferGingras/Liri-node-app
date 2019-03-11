@@ -43,6 +43,7 @@ The commands run like so:
 > `node liri.js <command> <search parameter>`
 
 ## See it in Action!
+Because (as mentioned before) the command line is quite plain, LIRI uses an npm called 'Chalk' to change the color of the informational text and improve legibility. 
 
 **Bands in Town**  
 Search for single or multi-word artists and band names.
